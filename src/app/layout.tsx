@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./_Component/Footer/page";
 import Navbar from "./_Component/Navbar/page";
+import "@fortawesome/fontawesome-free/css/all.min.css"
 
 
 
