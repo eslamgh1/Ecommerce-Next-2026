@@ -1,9 +1,13 @@
 'use client'
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '_/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '_/components/ui/form';
 import { Input } from '_/components/ui/input';
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import * as zod from "zod"
+import { schema } from './register.schema';
+import { RegisterFormType } from './register.type';
 
 //npx shadcn@latest add form
 //https://react-hook-form.com/get-started?#IntegratingControlledInputs
@@ -15,13 +19,26 @@ import { useForm } from 'react-hook-form';
 //    "rePassword":"Ahmed@123",
 //    "phone":"01010700701"
 //==================================
+
 export default function RegisterForm() {
 
-    const reactHookFormObject = useForm()
+    const reactHookFormObject = useForm({
+        resolver: zodResolver(schema),
+        mode: "onBlur",
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            rePassword: "",
+            phone: "",
+        },
+    }
+    )
     const { control, handleSubmit } = reactHookFormObject
 
-    function mySubmit(data : any) {
+    function mySubmit(data: RegisterFormType) {
         console.log('mySubmit', data)
+        console.log('mySubmit email', data.email)
     }
 
     return (
@@ -30,93 +47,93 @@ export default function RegisterForm() {
             {/* //Form is wrapper not <form */}
             <Form {...reactHookFormObject}>
                 <form onSubmit={handleSubmit(mySubmit)}>
-                <FormField
-                    control={control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
+                    <FormField
+                        control={control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="mb-5">
 
-                            <FormLabel>Name: </FormLabel>
-                            <FormControl>
-                                <Input placeholder="write your name" {...field} type="text" />
-                            </FormControl>
-                            {/* <FormDescription>This is your public display name.</FormDescription> */}
-                            {/* //<FormMessage /> Display error message */}
-                            <FormMessage />
+                                <FormLabel>Name: </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="write your name" {...field} type="text" />
+                                </FormControl>
+                                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                                {/* //<FormMessage /> Display error message */}
+                                <FormMessage />
 
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="mb-5">
 
-                            <FormLabel>Email: </FormLabel>
-                            <FormControl>
-                                <Input placeholder="write your email" {...field} type="email" />
-                            </FormControl>
-                            {/* <FormDescription>This is your public display name.</FormDescription> */}
-                            {/* //<FormMessage /> Display error message */}
-                            <FormMessage />
+                                <FormLabel>Email: </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="write your email" {...field} type="email" />
+                                </FormControl>
+                                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                                {/* //<FormMessage /> Display error message */}
+                                <FormMessage />
 
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem className="mb-5">
 
-                            <FormLabel>Password: </FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter your password" {...field} type="password" />
-                            </FormControl>
-                            {/* <FormDescription>This is your public display name.</FormDescription> */}
-                            {/* //<FormMessage /> Display error message */}
-                            <FormMessage />
+                                <FormLabel>Password: </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter your password" {...field} type="password" />
+                                </FormControl>
+                                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                                {/* //<FormMessage /> Display error message */}
+                                <FormMessage />
 
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={control}
-                    name="rePassword"
-                    render={({ field }) => (
-                        <FormItem>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={control}
+                        name="rePassword"
+                        render={({ field }) => (
+                            <FormItem className="mb-5">
 
-                            <FormLabel>Confirm Password: </FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter your confirm password" {...field} type='password' />
-                            </FormControl>
-                            {/* <FormDescription>This is your public display name.</FormDescription> */}
-                            {/* //<FormMessage /> Display error message */}
-                            <FormMessage />
+                                <FormLabel>Confirm Password: </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter your confirm password" {...field} type='password' />
+                                </FormControl>
+                                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                                {/* //<FormMessage /> Display error message */}
+                                <FormMessage />
 
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={control}
-                    name="phone"
-                    render={({ field }) => (
-                        <FormItem>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={control}
+                        name="phone"
+                        render={({ field }) => (
+                            <FormItem className="mb-5">
 
-                            <FormLabel>Phone: </FormLabel>
-                            <FormControl>
-                                <Input placeholder="write your phone" {...field} type="tel" />
-                            </FormControl>
-                            {/* <FormDescription>This is your public display name.</FormDescription> */}
-                            {/* //<FormMessage /> Display error message */}
-                            <FormMessage />
+                                <FormLabel>Phone: </FormLabel>
+                                <FormControl>
+                                    <Input placeholder="write your phone" {...field} type="tel" />
+                                </FormControl>
+                                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                                {/* //<FormMessage /> Display error message */}
+                                <FormMessage />
 
-                        </FormItem>
-                    )}
-                />
+                            </FormItem>
+                        )}
+                    />
 
-                <Button type="submit">Submit</Button>
+                    <Button type="submit">Submit</Button>
                 </form>
             </Form>
 
