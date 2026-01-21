@@ -4,7 +4,7 @@ import { ProductType } from "../_interfaces/products";
   export async function getAllProducts(): Promise<ProductType[] | null> {
     try {
       // await == pause the execution until the promise is resolved
-      const res = await fetch("https://ecommerce.routemisr.com/api/v1/products");
+      const res = await fetch("https://ecommerce.routemisr.com/api/v1/products" , {cache: "force-cache"});
       //pause the execution until the promise is resolved
       const finalRes = await res.json();
 
