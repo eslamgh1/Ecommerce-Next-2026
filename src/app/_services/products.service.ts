@@ -1,8 +1,14 @@
+import { cookies } from "next/headers";
 import { ProductType } from "../_interfaces/products";
 
   // return ProductType[] 
   export async function getAllProducts(): Promise<ProductType[] | null> {
     try {
+
+      // const cookie = await cookies()
+      // const token = cookie.get("user-token")
+      // console.log({ token })
+
       // await == pause the execution until the promise is resolved
       const res = await fetch("https://ecommerce.routemisr.com/api/v1/products" , {cache: "force-cache"});
       //pause the execution until the promise is resolved

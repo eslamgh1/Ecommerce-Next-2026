@@ -6,46 +6,44 @@ import { Input } from '_/components/ui/input';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import * as zod from "zod"
-import { schema } from './register.schema';
-import { RegisterFormType } from './register.type';
-import { handleRegister } from './register.action';
+import { schema } from './login.schema';
+
+
 import { toast } from 'sonner';
 import { cookies } from 'next/headers';
+import { LoginFormType } from './login.type';
+import { handleLogin } from './login.action';
 import { useRouter } from 'next/navigation';
 
 //npx shadcn@latest add form
 //https://react-hook-form.com/get-started?#IntegratingControlledInputs
 
 
-export default function RegisterForm() {
-    // Reminder: useRouter is a client component hook so it should be used in client components
+export default function LoginForm() {
+
     const router = useRouter()
 
     const reactHookFormObject = useForm({
         resolver: zodResolver(schema),
         mode: "onBlur",
         defaultValues: {
-            name: "",
             email: "",
             password: "",
-            rePassword: "",
-            phone: "",
+
         },
     }
     )
     const { control, handleSubmit } = reactHookFormObject
 
-    async function mySubmit(data: RegisterFormType) {
+    async function mySubmit(data: LoginFormType) {
 
-        const resOutPut = await handleRegister(data)
-        // console.log({resOutPut})
+        const resOutPut = await handleLogin(data)
+        console.log({resOutPut})
 
         if (resOutPut === true) {
 
-
-            toast.success("Registerd Successfully", { position: "top-center", duration:3000})
-            router.push("/")
-
+            toast.success("Login Successfully", { position: "top-center", duration:3000})
+              router.push("/")
           
         } else {
             toast.error(resOutPut, { position: "top-center" ,duration:3000})
@@ -58,23 +56,7 @@ export default function RegisterForm() {
             {/* //Form is wrapper not <form */}
             <Form {...reactHookFormObject}>
                 <form onSubmit={handleSubmit(mySubmit)}>
-                    <FormField
-                        control={control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem className="mb-5">
 
-                                <FormLabel>Name: </FormLabel>
-                                <FormControl>
-                                    <Input placeholder="write your name" {...field} type="text" />
-                                </FormControl>
-                                {/* <FormDescription>This is your public display name.</FormDescription> */}
-                                {/* //<FormMessage /> Display error message */}
-                                <FormMessage />
-
-                            </FormItem>
-                        )}
-                    />
                     <FormField
                         control={control}
                         name="email"
@@ -109,40 +91,8 @@ export default function RegisterForm() {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={control}
-                        name="rePassword"
-                        render={({ field }) => (
-                            <FormItem className="mb-5">
 
-                                <FormLabel>Confirm Password: </FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Enter your confirm password" {...field} type='password' />
-                                </FormControl>
-                                {/* <FormDescription>This is your public display name.</FormDescription> */}
-                                {/* //<FormMessage /> Display error message */}
-                                <FormMessage />
 
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={control}
-                        name="phone"
-                        render={({ field }) => (
-                            <FormItem className="mb-5">
-
-                                <FormLabel>Phone: </FormLabel>
-                                <FormControl>
-                                    <Input placeholder="write your phone" {...field} type="tel" />
-                                </FormControl>
-                                {/* <FormDescription>This is your public display name.</FormDescription> */}
-                                {/* //<FormMessage /> Display error message */}
-                                <FormMessage />
-
-                            </FormItem>
-                        )}
-                    />
 
                     <Button type="submit">Submit</Button>
                 </form>

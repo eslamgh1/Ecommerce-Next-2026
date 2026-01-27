@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "./_Component/Footer/page";
 import Navbar from "./_Component/Navbar/page";
 import "@fortawesome/fontawesome-free/css/all.min.css"
+import { Toaster } from "_/components/ui/sonner";
 
 
 
@@ -38,6 +39,7 @@ export default function RootLayout({
       >
 <Navbar/>
         {children}
+        <Toaster/>
 <Footer/>
 
       </body>
