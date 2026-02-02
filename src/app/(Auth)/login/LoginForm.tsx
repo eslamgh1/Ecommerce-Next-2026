@@ -7,22 +7,21 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import * as zod from "zod"
 import { schema } from './login.schema';
-
-
 import { toast } from 'sonner';
 import { cookies } from 'next/headers';
 import { LoginFormType } from './login.type';
 import { handleLogin } from './login.action';
 import { useRouter } from 'next/navigation';
-
+import { signIn } from 'next-auth/react';
 //npx shadcn@latest add form
 //https://react-hook-form.com/get-started?#IntegratingControlledInputs
 
-
 export default function LoginForm() {
-
     const router = useRouter()
-
+    // useForm to handle form  // resolver to validate form
+    // mode to validate form onBlur or onChange  // defaultValues to set default values for form
+    // control to control form   // handleSubmit to handle form submission
+    // watch to watch form values  // formState to get form state // setError to set error
     const reactHookFormObject = useForm({
         resolver: zodResolver(schema),
         mode: "onBlur",
@@ -37,17 +36,36 @@ export default function LoginForm() {
 
     async function mySubmit(data: LoginFormType) {
 
-        const resOutPut = await handleLogin(data)
+        // NExt Auth Login Method
+
+        // until 10 mins
+        
+        const resOutPut = await signIn("credentials", { ...data , callbackUrl: "/", redirect: false })
         console.log({resOutPut})
 
-        if (resOutPut === true) {
+        if (resOutPut?.ok) {
+            toast.success("Login Successfully", { position: "top-center", duration:4000})
+            // router.push("/")
+            // to redirect to home page and refresh the page to set cookies
+           window.location.href = "/"
 
-            toast.success("Login Successfully", { position: "top-center", duration:3000})
-              router.push("/")
-          
-        } else {
-            toast.error(resOutPut, { position: "top-center" ,duration:3000})
         }
+        else {
+            toast.error("email or password is wrong", { position: "top-center" ,duration:4000})
+        }
+
+        // Default Login method - Ignore
+        // handleLogin method from server file 'login.action.ts'
+        // const resOutPut = await handleLogin(data)
+ 
+        // if (resOutPut === true) {
+
+        //     toast.success("Login Successfully", { position: "top-center", duration:3000})
+        //       router.push("/")
+
+        // } else {
+        //     toast.error(resOutPut, { position: "top-center" ,duration:3000})
+        // }
     }
 
     return (
