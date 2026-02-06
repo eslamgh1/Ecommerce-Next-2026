@@ -35,29 +35,36 @@ export default function LoginForm() {
     const { control, handleSubmit } = reactHookFormObject
 
     async function mySubmit(data: LoginFormType) {
-
         // NExt Auth Login Method
 
-        // until 10 mins
-        
-        const resOutPut = await signIn("credentials", { ...data , callbackUrl: "/", redirect: false })
-        console.log({resOutPut})
+        //1st mahmoud hesham
+        // const resOutPut = await signIn("credentials", { ...data , callbackUrl: "/", redirect: false })
+
+        //2nd Huda
+        const resOutPut = await signIn("credentials", {
+            email: data.email,
+            password: data.password,
+            callbackUrl: "/",
+            redirect: false
+        })
+
+        console.log({ resOutPut })
 
         if (resOutPut?.ok) {
-            toast.success("Login Successfully", { position: "top-center", duration:4000})
+            toast.success("Login Successfully", { position: "top-center", duration: 4000 })
             // router.push("/")
             // to redirect to home page and refresh the page to set cookies
-           window.location.href = "/"
+            window.location.href = "/"
 
         }
         else {
-            toast.error("email or password is wrong", { position: "top-center" ,duration:4000})
+            toast.error("email or password is wrong", { position: "top-center", duration: 4000 })
         }
 
         // Default Login method - Ignore
         // handleLogin method from server file 'login.action.ts'
         // const resOutPut = await handleLogin(data)
- 
+
         // if (resOutPut === true) {
 
         //     toast.success("Login Successfully", { position: "top-center", duration:3000})

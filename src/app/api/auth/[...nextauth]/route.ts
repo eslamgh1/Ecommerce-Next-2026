@@ -8,6 +8,7 @@ const nextHandler = NextAuth(nextAuthConfig)
 
 export {nextHandler as  GET,  nextHandler as POST}
 
+// [...nextauth] is a dynamic segment that captures the rest of the path after /api/auth.
 
 //============================================
 //  Route handlers
