@@ -5,9 +5,8 @@ import Footer from "./_Component/Footer/page";
 import Navbar from "./_Component/Navbar/page";
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import { Toaster } from "_/components/ui/sonner";
-
-
-
+// import { SessionProvider } from "next-auth/react";
+import MySessionProvider from "./_Component/MysessionProvider/MySessionProvider";
 
 
 const geistSans = Geist({
@@ -26,7 +25,6 @@ export const metadata: Metadata = {
 };
 
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,10 +35,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-<Navbar/>
-        {children}
-        <Toaster/>
-<Footer/>
+        <MySessionProvider >
+          <Navbar />
+          {/* children are the pages or App components such as login, register, home, cart */}
+          {children}
+          <Toaster />
+          <Footer />
+        </MySessionProvider>
 
       </body>
     </html>

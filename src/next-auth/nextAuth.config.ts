@@ -70,20 +70,21 @@ export const nextAuthConfig: NextAuthOptions = {
         // jwt(params) run after successfull login
         async jwt(params) {
 
-
             if (params.user) {
                 params.token.credentialToken = params.user?.credentialToken
                 params.token.userId = params.user?.id
             }
 
-            console.log("params after mutation", params)
+            // console.log("params after mutation", params)
             // we need params.token to store data in server such as credentialToken and userId
             return params.token
         },
 
         // data at client
+        // session(params) run after successfull login
+        //3=ways to get user session: 1-useSession 2-getServerSession 3-api/auth/session
         async session(params: any) {
-            console.log("session params ", params)
+            // console.log("session params ", params)
 
             if (params.token) {
                 params.session.user.id = params.token.userId
@@ -92,6 +93,10 @@ export const nextAuthConfig: NextAuthOptions = {
             return params.session
         }
 
+    },
+
+    session: {
+        maxAge: 60 * 60 * 24 * 3000 // 30 days
     }
 }
 

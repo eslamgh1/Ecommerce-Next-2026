@@ -1,4 +1,6 @@
+import AddProductBtn from "_/app/_Component/AddProductBtn/AddProductBtn";
 import { getSpecificProduct } from "_/app/_services/products.service";
+import { Button } from "_/components/ui/button";
 import React from "react";
 
 type ProductDetailsPropsType = {
@@ -8,10 +10,13 @@ type ProductDetailsPropsType = {
 export default async function ProductDetails({params} : ProductDetailsPropsType) {
 
     const object = await getSpecificProduct(params.id);
+
+    if (!object){
+        return;
+    }
     
    return (
-        <div className="min-h-screen w-full md:w-3/4 mx-auto flex flex-col md:grid md:grid-cols-4 items-center gap-10 p-6">
-            
+        <div className="min-h-screen w-full md:w-3/4 mx-auto flex flex-col md:grid md:grid-cols-4 items-center gap-10 p-6">         
             {/* Image Section */}
             <div className="col-span-1 w-full">
                 <img 
@@ -51,10 +56,14 @@ export default async function ProductDetails({params} : ProductDetailsPropsType)
                     <i className="fa-solid fa-star text-yellow-500"></i>
                 </div>
 
-                <button className="mt-6 w-full md:w-max bg-blue-600 text-white px-10 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md">
+                {/* <button className="mt-6 w-full md:w-max bg-blue-600 text-white px-10 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md">
                     Add to Cart
-                </button>
+                </button> */}
+                {/* // send productId to AddProduct */}
+                <AddProductBtn id={object?.id}/>
+                <h1>Button test</h1>
             </div>
-        </div>
+
+        </div>  
     );
 }   

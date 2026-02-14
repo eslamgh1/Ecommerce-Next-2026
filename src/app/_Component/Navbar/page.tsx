@@ -4,9 +4,23 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import logo from '@images/freshcart-logo.svg';
 import Image from 'next/image';
+import { signOut, useSession } from 'next-auth/react';
+import { da } from 'zod/v4/locales';
+
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+
+    // const { data: isAuthenticated } = useSession();
+
+    // console.log({ isAuthenticated });
+
+    const { data: session, status } = useSession();
+    const isAuthenticated = !!session;
+
+    const handleLogout = () => {
+        signOut({redirect: true, callbackUrl: '/login'});
+    };
 
     return (
         <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
@@ -16,9 +30,9 @@ export default function Navbar() {
                 </Link>
 
                 {/* Mobile Toggle Button */}
-                <button 
+                <button
                     onClick={() => setIsOpen(!isOpen)}
-                    type="button" 
+                    type="button"
                     className="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
                 >
                     <span className="sr-only">Open main menu</span>
@@ -30,26 +44,45 @@ export default function Navbar() {
                 {/* Nav Links */}
                 <div className={`${isOpen ? "block" : "hidden"} w-full md:block md:w-auto`}>
                     <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
-                        <li>
-                            <Link href="/" className="block py-2 px-3 text-green-600 font-bold md:p-0">Home</Link>
-                        </li>
-                        <li>
-                            <Link href="/categories" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Categories</Link>
-                        </li>
-                        <li>
-                            <Link href="/products" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Products</Link>
-                        </li>
-                        <li>
-                            <Link href="/brands" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Brands</Link>
-                        </li>
-                        <div className="flex flex-col md:flex-row md:space-x-4 border-t md:border-t-0 mt-2 pt-2 md:mt-0 md:pt-0">
+
+                        {isAuthenticated ? <>
                             <li>
-                                <Link href="/login" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Login</Link>
+                                <Link href="/" className="block py-2 px-3 text-green-600 font-bold md:p-0">Home</Link>
                             </li>
                             <li>
-                                <Link href="/register" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Register</Link>
+                                <Link href="/categories" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Categories</Link>
                             </li>
-                        </div>
+                            <li>
+                                <Link href="/products" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Products</Link>
+                            </li>
+                            <li>
+                                <Link href="/brands" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Brands</Link>
+                            </li>
+                            <li>
+                                <Link href="/cart" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Cart</Link>
+                            </li>
+
+                            <li>
+                                <Link onClick={() => handleLogout()} href="/" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">LogOut</Link>
+                            </li>
+
+                        </> : status !== "loading" && <>
+                            <div className="flex flex-col md:flex-row md:space-x-4 border-t md:border-t-0 mt-2 pt-2 md:mt-0 md:pt-0">
+                                <li>
+                                    <Link href="/login" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Login</Link>
+                                </li>
+                                <li>
+                                    <Link href="/register" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Register</Link>
+                                </li>
+                            </div>
+                        </>
+
+                        }
+
+
+
+
+
                     </ul>
                 </div>
             </div>
