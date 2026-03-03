@@ -7,6 +7,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css"
 import { Toaster } from "_/components/ui/sonner";
 // import { SessionProvider } from "next-auth/react";
 import MySessionProvider from "./_Component/MysessionProvider/MySessionProvider";
+import { Car } from "lucide-react";
+
 
 
 const geistSans = Geist({
@@ -36,11 +38,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <MySessionProvider >
+          {/* <CartContextProvider> */}
+
           <Navbar />
           {/* children are the pages or App components such as login, register, home, cart */}
           {children}
           <Toaster />
           <Footer />
+
+          {/* </CartContextProvider> */}
         </MySessionProvider>
 
       </body>

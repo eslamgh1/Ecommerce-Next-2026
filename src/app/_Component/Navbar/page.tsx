@@ -1,27 +1,39 @@
 "use client"; // Required for useState
 
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { use, useContext, useEffect, useState } from 'react';
 import logo from '@images/freshcart-logo.svg';
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
-import { da } from 'zod/v4/locales';
-
+import { getUserCart } from '_/app/_services/cart.services';
+// import { CartContext } from '_/app/cart/cartContext';
+import { CartContext } from '_/app/cart/CartContext';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
-    // const { data: isAuthenticated } = useSession();
-
-    // console.log({ isAuthenticated });
+    const [initialCartCount , setCartCount] = useState(0);
 
     const { data: session, status } = useSession();
     const isAuthenticated = !!session;
+
+const { cartCount, updateCartCount } = useContext(CartContext);
 
     const handleLogout = () => {
         signOut({redirect: true, callbackUrl: '/login'});
     };
 
+// get user cart
+    useEffect(() => {
+        getUserCart().then((res) => {
+            setCartCount(res.numOfCartItems);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
+
+    
     return (
         <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
             <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -59,7 +71,7 @@ export default function Navbar() {
                                 <Link href="/brands" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Brands</Link>
                             </li>
                             <li>
-                                <Link href="/cart" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Cart</Link>
+                                <Link href="/cart" className="block py-2 px-3 text-gray-900 hover:text-green-600 md:p-0">Cart {cartCount || initialCartCount}</Link>
                             </li>
 
                             <li>

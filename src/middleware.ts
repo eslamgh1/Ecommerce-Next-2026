@@ -10,10 +10,10 @@ export default async function middleware(req: NextRequest) {
     if (JwtToken){
         return NextResponse.next() // if token exists, allow access
     }
-
+  
     return NextResponse.redirect(`${process.env.NEXTAUTH_URL}login`) // if token doesn't exist, redirect to login
 }
 
 export const config = {
-    matcher: ['/cart']
+    matcher: ['/cart:path*']
 }
